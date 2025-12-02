@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from "next/server"
 import prisma from "@/lib/prisma"
 
-/* ---------------------- UPDATE PRODUCT ---------------------- */
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+   context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const id = Number(params.id)
+    const { id: idStr } = await context.params
+    const id = Number(idStr)
     const { name, description, basePrice, categoryId } = await request.json()
 
     if (!name || !categoryId || basePrice === undefined) {
@@ -63,13 +63,13 @@ export async function PUT(
   }
 }
 
-/* ---------------------- DELETE PRODUCT ---------------------- */
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const id = Number(params.id)
+    const { id: idStr } = await context.params
+    const id = Number(idStr)
 
     const existingProduct = await prisma.product.findUnique({
       where: { id },

@@ -3,10 +3,11 @@ import prisma from "@/lib/prisma"
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const id = Number(params.id)
+    const { id: idStr } = await context.params
+    const id = Number(idStr)
     const { name } = await request.json()
 
     if (!name || name.trim() === "") {
@@ -60,10 +61,11 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const id = Number(params.id)
+    const { id: idStr } = await context.params
+    const id = Number(idStr)
 
     // Check if category exists
     const category = await prisma.category.findUnique({
