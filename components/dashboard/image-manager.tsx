@@ -19,7 +19,8 @@ interface ImageManagerProps {
 export function ImageManager({ images, onImagesChange }: ImageManagerProps) {
   const [newImage, setNewImage] = useState<ProductImage>({ url: "", alt: "" })
 
-  function addImage() {
+  function addImage(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault()
     if (!newImage.url.trim()) {
       return
     }

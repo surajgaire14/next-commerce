@@ -11,7 +11,6 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-// import { useToast } from "@/hooks/use-toast"
 import { VariantManager } from "./variant-manager"
 import { ImageManager } from "./image-manager"
 
@@ -68,10 +67,12 @@ export function ProductsManager() {
     try {
       const [productsRes, categoriesRes] = await Promise.all([fetch("/api/products"), fetch("/api/categories")])
 
+      
       const productsData = await productsRes.json()
       const categoriesData = await categoriesRes.json()
 
-      setProducts(productsData.products)
+      console.log("product response ", productsData, "category response", categoriesData)
+      setProducts(productsData)
       setCategories(categoriesData.categories)
     } catch (error) {
       // toast({ title: "Error", description: "Failed to fetch data", variant: "destructive" })
@@ -206,7 +207,7 @@ export function ProductsManager() {
                   <SelectValue placeholder="Select category *" />
                 </SelectTrigger>
                 <SelectContent>
-                  {categories.map((cat) => (
+                  {categories && categories.map((cat) => (
                     <SelectItem key={cat.id} value={cat.id.toString()}>
                       {cat.name}
                     </SelectItem>
@@ -234,7 +235,7 @@ export function ProductsManager() {
       <CardContent>
         {loading ? (
           <p className="text-muted-foreground">Loading products...</p>
-        ) : products.length === 0 ? (
+        ) : products?.length === 0 ? (
           <p className="text-muted-foreground">No products yet</p>
         ) : (
           <div className="rounded-lg border overflow-hidden overflow-x-auto">
@@ -250,7 +251,7 @@ export function ProductsManager() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {products.map((product) => (
+                {products?.map((product) => (
                   <TableRow key={product.id}>
                     <TableCell>
                       <div>

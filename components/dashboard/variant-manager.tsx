@@ -29,7 +29,8 @@ export function VariantManager({ variants, onVariantsChange }: VariantManagerPro
     price: undefined,
   })
 
-  function addVariant() {
+  function addVariant(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault()
     if (!newVariant.size.trim() || !newVariant.color.trim() || !newVariant.sku.trim()) {
       return
     }
