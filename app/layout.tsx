@@ -50,10 +50,11 @@ export const metadata: Metadata = {
         media: "(prefers-color-scheme: dark)",
       },
       {
-        url: "/logo.svg",
+        url: "logo.svg",
         type: "image/svg+xml",
       },
     ],
+    shortcut: "/logo.png",
     apple: "/logo.png",
   },
 };
