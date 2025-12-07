@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client-js"
-   output   = "../app/generated/prisma"
+  output   = "../app/generated/prisma"
 }
 
 datasource db {
@@ -19,6 +19,8 @@ model User {
   updatedAt     DateTime  @updatedAt
   accounts      Account[]
   sessions      Session[]
+
+  orders        Order[]   // 👈 Added: link user → orders
 
   @@map("users")
 }
@@ -69,7 +71,7 @@ enum Role {
 
 model Category {
   id       Int       @id @default(autoincrement())
-  name     String     @unique
+  name     String    @unique
   products Product[]
 }
 
@@ -80,8 +82,10 @@ model Product {
   basePrice   Decimal          @db.Decimal(10,2)
   categoryId  Int
   category    Category         @relation(fields: [categoryId], references: [id])
+
   variants    ProductVariant[]
   images      ProductImage[]
+  orderItems  OrderItem[]      
   createdAt   DateTime         @default(now())
   updatedAt   DateTime         @updatedAt
 }
@@ -97,17 +101,17 @@ model ProductVariant {
   sku       String   @unique
   stock     Int      @default(0)
 
-  price     Decimal? @db.Decimal(10,2) // optional variant-specific price
+  price     Decimal? @db.Decimal(10,2)
 
+  orderItems OrderItem[]  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  // Ensures a product cannot have two variants with same size + color
   @@unique([productId, size, color])
 }
 
 model ProductImage {
-  id        Int     @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   productId Int
   product   Product @relation(fields: [productId], references: [id])
 
@@ -117,3 +121,33 @@ model ProductImage {
   createdAt DateTime @default(now())
 }
 
+model Order {
+  id        Int        @id @default(autoincrement())
+  userId    String?
+  user      User?      @relation(fields: [userId], references: [id])
+
+  total     Decimal     @db.Decimal(10,2)
+  status    String      @default("PENDING")
+
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  items     OrderItem[]
+}
+
+model OrderItem {
+  id          Int             @id @default(autoincrement())
+  orderId     Int
+  order       Order           @relation(fields: [orderId], references: [id])
+
+  productId   Int
+  product     Product         @relation(fields: [productId], references: [id])
+
+  variantId   Int?
+  variant     ProductVariant? @relation(fields: [variantId], references: [id])
+
+  quantity    Int
+  price       Decimal         @db.Decimal(10,2)
+
+  createdAt   DateTime        @default(now())
+}

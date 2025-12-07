@@ -20,6 +20,8 @@ model User {
   accounts      Account[]
   sessions      Session[]
 
+  orders Order[] // 👈 Added: link user → orders
+
   @@map("users")
 }
 
@@ -74,16 +76,19 @@ model Category {
 }
 
 model Product {
-  id          Int              @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   name        String
   description String?
-  basePrice   Decimal          @db.Decimal(10, 2)
+  basePrice   Decimal  @db.Decimal(10, 2)
   categoryId  Int
-  category    Category         @relation(fields: [categoryId], references: [id])
-  variants    ProductVariant[]
-  images      ProductImage[]
-  createdAt   DateTime         @default(now())
-  updatedAt   DateTime         @updatedAt
+  category    Category @relation(fields: [categoryId], references: [id])
+
+  variants   ProductVariant[]
+  images     ProductImage[]
+  orderItems OrderItem[] // 👈 Added for best seller queries
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model ProductVariant {
@@ -97,12 +102,13 @@ model ProductVariant {
   sku   String @unique
   stock Int    @default(0)
 
-  price Decimal? @db.Decimal(10, 2) // optional variant-specific price
+  price Decimal? @db.Decimal(10, 2)
+
+  orderItems OrderItem[] // 👈 Added — if user orders by variant
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  // Ensures a product cannot have two variants with same size + color
   @@unique([productId, size, color])
 }
 
@@ -113,6 +119,37 @@ model ProductImage {
 
   url String
   alt String?
+
+  createdAt DateTime @default(now())
+}
+
+model Order {
+  id     Int     @id @default(autoincrement())
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id])
+
+  total  Decimal @db.Decimal(10, 2)
+  status String  @default("PENDING")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  items OrderItem[]
+}
+
+model OrderItem {
+  id      Int   @id @default(autoincrement())
+  orderId Int
+  order   Order @relation(fields: [orderId], references: [id])
+
+  productId Int
+  product   Product @relation(fields: [productId], references: [id])
+
+  variantId Int?
+  variant   ProductVariant? @relation(fields: [variantId], references: [id])
+
+  quantity Int
+  price    Decimal @db.Decimal(10, 2) // snapshot of price at time of purchase
 
   createdAt DateTime @default(now())
 }

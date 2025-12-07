@@ -1,38 +1,63 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Geist, Geist_Mono } from "next/font/google"
-import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
-import { SessionProvider } from "next-auth/react"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { Providers } from "@/components/provider"
-
-const _geist = Geist({ subsets: ["latin"] })
-const _geistMono = Geist_Mono({ subsets: ["latin"] })
+import StripeProvider from "./stripe-provider"
 
 export const metadata: Metadata = {
-  title: "v0 App",
-  description: "Created with v0",
-  generator: "v0.app",
+  title: "Next Commerce – Fashion for Men, Women & Accessories",
+  description:
+    "Next Commerce is your modern e-commerce destination for stylish men's clothing, women's fashion, and essential accessories. Shop trends, quality products, and seamless online experiences.",
+  generator: "Next Commerce",
+  keywords: [
+    "Next Commerce",
+    "online shopping",
+    "men's clothing",
+    "women's clothing",
+    "fashion accessories",
+    "ecommerce",
+    "fashion store",
+    "apparel",
+  ],
+  authors: [{ name: "Next Commerce Team" }],
+  applicationName: "Next Commerce",
+  openGraph: {
+    title: "Next Commerce – Fashion for Men, Women & Accessories",
+    description:
+      "Discover a curated collection of men's fashion, women's styles, and accessories at Next Commerce.",
+    url: "https://next-commerce-vvvvvoneeeee.vercel.app/",
+    siteName: "Next Commerce",
+    type: "website",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Next Commerce – Fashion Store",
+      },
+    ],
+  },
   icons: {
     icon: [
       {
-        url: "/icon-light-32x32.png",
+        url: "/logo.png",
         media: "(prefers-color-scheme: light)",
       },
       {
-        url: "/icon-dark-32x32.png",
+        url: "/logo.png",
         media: "(prefers-color-scheme: dark)",
       },
       {
-        url: "/icon.svg",
+        url: "/logo.svg",
         type: "image/svg+xml",
       },
     ],
-    apple: "/apple-icon.png",
+    apple: "/logo.png",
   },
-}
+};
+
 
 export default async function RootLayout({
   children,
@@ -44,12 +69,12 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`font-sans antialiased`}>
-        {/* <SessionProvider session={session}> */}
         <Providers session={session}>
-          {children}
+          <StripeProvider>
+            {children}
+          </StripeProvider>
           </Providers>
           {/* <Analytics /> */}
-        {/* </SessionProvider> */}
       </body>
     </html>
   )
