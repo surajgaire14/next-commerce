@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { Heart, ShoppingBag } from "lucide-react"
+import { useCart } from "@/app/context/cart-context"
 
 interface Product {
   id: number
@@ -19,8 +20,22 @@ export function ProductCard({ product }: { product: Product }) {
   const [isWishlisted, setIsWishlisted] = useState(false)
   const [showVariants, setShowVariants] = useState(false)
   const [isAdded, setIsAdded] = useState(false)
+  const { dispatch } = useCart()
 
   const handleAddToCart = () => {
+    dispatch({
+      type: "ADD_ITEM",
+      payload: {
+        id: `${product.id}-${selectedColor}-${selectedSize}`,
+        productId: product.id,
+        name: product.name,
+        price: product.price,
+        quantity: 1,
+        image: product.image,
+        color: selectedColor,
+        size: selectedSize,
+      },
+    })
     setIsAdded(true)
     setTimeout(() => setIsAdded(false), 2000)
   }
@@ -71,9 +86,8 @@ export function ProductCard({ product }: { product: Product }) {
               {product.colors.slice(0, 4).map((color) => (
                 <div
                   key={color}
-                  className={`w-6 h-6 rounded-full border-2 transition cursor-pointer ${
-                    selectedColor === color ? "border-black scale-110" : "border-gray-300"
-                  } ${getColorClass(color)}`}
+                  className={`w-6 h-6 rounded-full border-2 transition cursor-pointer ${selectedColor === color ? "border-black scale-110" : "border-gray-300"
+                    } ${getColorClass(color)}`}
                   onClick={() => setSelectedColor(color)}
                   title={color}
                 />
@@ -106,9 +120,8 @@ export function ProductCard({ product }: { product: Product }) {
                   <button
                     key={color}
                     onClick={() => setSelectedColor(color)}
-                    className={`w-8 h-8 rounded-full border-2 transition ${
-                      selectedColor === color ? "border-black scale-110" : "border-gray-300"
-                    } ${getColorClass(color)}`}
+                    className={`w-8 h-8 rounded-full border-2 transition ${selectedColor === color ? "border-black scale-110" : "border-gray-300"
+                      } ${getColorClass(color)}`}
                     title={color}
                   />
                 ))}
@@ -123,11 +136,10 @@ export function ProductCard({ product }: { product: Product }) {
                   <button
                     key={size}
                     onClick={() => setSelectedSize(size)}
-                    className={`px-3 py-1 text-xs font-medium border rounded transition ${
-                      selectedSize === size
+                    className={`px-3 py-1 text-xs font-medium border rounded transition ${selectedSize === size
                         ? "bg-black text-white border-black"
                         : "border-gray-300 text-gray-700 hover:border-black"
-                    }`}
+                      }`}
                   >
                     {size}
                   </button>
@@ -140,9 +152,8 @@ export function ProductCard({ product }: { product: Product }) {
         {/* Add to Cart */}
         <button
           onClick={handleAddToCart}
-          className={`w-full py-3 rounded-lg font-bold text-sm transition flex items-center justify-center gap-2 ${
-            isAdded ? "bg-green-600 text-white" : "bg-black text-white hover:bg-gray-900"
-          }`}
+          className={`w-full py-3 rounded-lg font-bold text-sm transition flex items-center justify-center gap-2 ${isAdded ? "bg-green-600 text-white" : "bg-black text-white hover:bg-gray-900"
+            }`}
         >
           <ShoppingBag size={16} />
           {isAdded ? "ADDED!" : "ADD TO CART"}

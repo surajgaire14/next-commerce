@@ -10,6 +10,7 @@ import { useCart } from "@/app/context/cart-context"
 export default function CartPage() {
   const { state, dispatch } = useCart()
 
+
   const handleUpdateQuantity = (id: string, quantity: number) => {
     if (quantity <= 0) {
       dispatch({ type: "REMOVE_ITEM", payload: id })
@@ -55,6 +56,15 @@ export default function CartPage() {
                 <Card key={item.id}>
                   <CardContent className="p-6">
                     <div className="flex gap-4">
+                      {item.image && (
+                        <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                          <img
+                            src={item.image}
+                            alt={item.name}
+                            className="h-full w-full object-cover object-center"
+                          />
+                        </div>
+                      )}
                       <div className="flex-1">
                         <h3 className="font-semibold">{item.name}</h3>
                         <p className="text-sm text-muted-foreground">

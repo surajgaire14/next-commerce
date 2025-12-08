@@ -8,10 +8,13 @@ import { FeaturedCollection } from "@/components/featured-collection"
 import { TrendingSection } from "@/components/trending-section"
 import { NewArrivals } from "@/components/new-arrivals"
 import { Footer } from "@/components/footer"
+import { CartProvider } from "./context/cart-context"
 
 export default function Home() {
   return (
+    // <CartProvider>
     <div className="min-h-screen bg-white">
+      
       <PromoBar />
       <Header />
       <HeroSection />
@@ -21,5 +24,6 @@ export default function Home() {
       <NewArrivals />
       <Footer />
     </div>
+    // </CartProvider>
   )
 }

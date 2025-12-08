@@ -73,6 +73,18 @@ model Category {
   id       Int       @id @default(autoincrement())
   name     String    @unique
   products Product[]
+  images   CategoryImage[] 
+}
+
+model CategoryImage {
+  id         Int       @id @default(autoincrement())
+  categoryId Int
+  category   Category  @relation(fields: [categoryId], references: [id])
+
+  url        String
+  alt        String?
+
+  createdAt  DateTime  @default(now())
 }
 
 model Product {

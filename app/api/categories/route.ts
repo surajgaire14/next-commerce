@@ -3,9 +3,10 @@ import prisma from "@/lib/prisma"
 
 export async function GET() {
   try {
-    const categories = await prisma.category.findMany({
+  const categories = await prisma.category.findMany({
       orderBy: { name: "asc" },
-    })
+      include: { images: true },
+    });
 
     return NextResponse.json(
       { message: "Categories fetched successfully", categories },
@@ -22,43 +23,45 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
-    const { name } = await request.json()
+    const body = await request.json();
+    const { name, images } = body ?? {};
+    console.log("POST body :", { name, images });
 
     if (!name || name.trim() === "") {
-      return NextResponse.json(
-        { message: "Category name is required" },
-        { status: 400 },
-      )
+      return NextResponse.json({ message: "Category name is required" }, { status: 400 });
     }
 
-    const existingCategory = await prisma.category.findUnique({
-      where: { name },
-    })
-
+    const existingCategory = await prisma.category.findUnique({ where: { name } });
     if (existingCategory) {
-      return NextResponse.json(
-        { message: "Category name already exists" },
-        { status: 409 },
-      )
+      return NextResponse.json({ message: "Category name already exists" }, { status: 409 });
     }
 
-    // Create category
+    const imageData =
+      Array.isArray(images) && images.length > 0
+        ? images
+            .filter((img) => img && typeof img.url === "string" && img.url.trim() !== "")
+            .map((img) => ({ url: img.url.trim(), alt: img.alt ?? null }))
+        : [];
+
     const category = await prisma.category.create({
-      data: { name },
-    })
+      data: {
+        name,
+        images: imageData.length > 0 ? { create: imageData } : undefined,
+      },
+      include: { images: true },
+    });
+
+    console.log("Created category:", category);
 
     return NextResponse.json(
-      {
-        message: "Category created successfully",
-        category: { id: category.id, name: category.name },
-      },
-      { status: 201 },
-    )
+      { message: "Category created successfully", category },
+      { status: 201 }
+    );
   } catch (error) {
-    console.error("Error creating category:", error)
-    return NextResponse.json(
-      { message: "Internal server error" },
-      { status: 500 },
-    )
+    console.error("Error creating category:", error);
+    // return the error message in dev only if you want more visibility:
+    return NextResponse.json({ message: "Internal server error", error: String(error) }, { status: 500 });
   }
 }
+
+

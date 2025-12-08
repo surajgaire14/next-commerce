@@ -29,9 +29,9 @@ type CartAction =
 
 const CartContext = createContext<
   | {
-      state: CartState
-      dispatch: React.Dispatch<CartAction>
-    }
+    state: CartState
+    dispatch: React.Dispatch<CartAction>
+  }
   | undefined
 >(undefined)
 
@@ -39,7 +39,10 @@ function cartReducer(state: CartState, action: CartAction): CartState {
   switch (action.type) {
     case "ADD_ITEM": {
       const existingItem = state.items.find(
-        (item) => item.productId === action.payload.productId && item.variantId === action.payload.variantId,
+        (item) =>
+          item.productId === action.payload.productId &&
+          item.color === action.payload.color &&
+          item.size === action.payload.size,
       )
 
       let newItems: CartItem[]
@@ -83,6 +86,7 @@ function cartReducer(state: CartState, action: CartAction): CartState {
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(cartReducer, { items: [], total: 0 })
 
+
   useEffect(() => {
     const savedCart = localStorage.getItem("cart")
     if (savedCart) {
@@ -91,7 +95,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         dispatch({ type: "LOAD_CART", payload: cartData })
       } catch (error) {
 
-        
+
       }
     }
   }, [])

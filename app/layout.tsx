@@ -5,6 +5,7 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { Providers } from "@/components/provider"
 import StripeProvider from "./stripe-provider"
+import { CartProvider } from "./context/cart-context"
 
 export const metadata: Metadata = {
   title: "Next Commerce – Fashion for Men, Women & Accessories",
@@ -71,13 +72,14 @@ export default async function RootLayout({
     <html lang="en">
       <body className={`font-sans antialiased`}>
         <Providers session={session}>
-          <StripeProvider>
-            {children}
-          </StripeProvider>
-          </Providers>
-          {/* <Analytics /> */}
+          <CartProvider>
+            <StripeProvider>
+              {children}
+            </StripeProvider>
+          </CartProvider>
+        </Providers>
+        {/* <Analytics /> */}
       </body>
     </html>
   )
 }
-  

@@ -2,9 +2,13 @@
 
 import { useState } from "react"
 import { Menu, Search, User, ShoppingCart, X } from "lucide-react"
+import { useCart } from "@/app/context/cart-context"
+import Link from "next/link"
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const { state } = useCart()
+  const totalItems = state.items.reduce((acc, item) => acc + item.quantity, 0)
 
   return (
     <header className="w-full bg-white border-b border-gray-100">
@@ -55,12 +59,14 @@ export function Header() {
             <button className="p-2 hover:opacity-60 transition">
               <User size={20} />
             </button>
-            <button className="p-2 hover:opacity-60 transition relative">
+            <Link href="/cart" className="p-2 hover:opacity-60 transition relative">
               <ShoppingCart size={20} />
-              <span className="absolute top-1 right-1 bg-black text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
-                0
-              </span>
-            </button>
+              {totalItems > 0 && (
+                <span className="absolute top-1 right-1 bg-black text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                  {totalItems}
+                </span>
+              )}
+            </Link>
           </div>
         </div>
 

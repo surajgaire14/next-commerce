@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import prisma from "@/lib/prisma"
+import fs from "fs/promises"
+import path from "path"
 
 export async function PUT(
   request: NextRequest,
@@ -8,56 +10,88 @@ export async function PUT(
   try {
     const { id: idStr } = await context.params
     const id = Number(idStr)
-    const { name } = await request.json()
+    const { name, images } = await request.json()
 
     if (!name || name.trim() === "") {
       return NextResponse.json(
         { message: "Category name is required" },
-        { status: 400 },
+        { status: 400 }
       )
     }
 
-    // Check if category exists
     const existing = await prisma.category.findUnique({
       where: { id },
+      include: { images: true },
     })
 
     if (!existing) {
       return NextResponse.json(
         { message: "Category not found" },
-        { status: 404 },
+        { status: 404 }
       )
     }
 
-    // Check if name already exists (other than current category)
-    const nameExists = await prisma.category.findUnique({
+    const duplicate = await prisma.category.findUnique({
       where: { name },
     })
 
-    if (nameExists && nameExists.id !== id) {
+    if (duplicate && duplicate.id !== id) {
       return NextResponse.json(
         { message: "Category name already exists" },
-        { status: 409 },
+        { status: 409 }
       )
     }
 
+    const newImageUrls = new Set(
+      Array.isArray(images) ? images.map((img: any) => img.url) : []
+    )
+
+    for (const img of existing.images) {
+      if (!newImageUrls.has(img.url) && img.url.startsWith("/images/")) {
+        const filePath = path.join(process.cwd(), "public", img.url)
+        try {
+          await fs.unlink(filePath)
+        } catch {
+          // File may already be deleted or missing
+        }
+      }
+    }
+
+    await prisma.categoryImage.deleteMany({
+      where: { categoryId: id },
+    })
+
+    const newImages = Array.isArray(images)
+      ? images.map((img: any) => ({
+        url: img.url,
+        alt: img.alt ?? null,
+      }))
+      : []
+
     const updatedCategory = await prisma.category.update({
       where: { id },
-      data: { name },
+      data: {
+        name,
+        images: {
+          create: newImages,
+        },
+      },
+      include: { images: true },
     })
 
     return NextResponse.json(
       { message: "Category updated successfully", category: updatedCategory },
-      { status: 200 },
+      { status: 200 }
     )
   } catch (error) {
     console.error("Error updating category:", error)
     return NextResponse.json(
       { message: "Internal server error" },
-      { status: 500 },
+      { status: 500 }
     )
   }
 }
+
 
 export async function DELETE(
   request: NextRequest,
@@ -67,19 +101,19 @@ export async function DELETE(
     const { id: idStr } = await context.params
     const id = Number(idStr)
 
-    // Check if category exists
     const category = await prisma.category.findUnique({
       where: { id },
+      include: { images: true },
     })
 
     if (!category) {
       return NextResponse.json(
         { message: "Category not found" },
-        { status: 404 },
+        { status: 404 }
       )
     }
 
-    // Check if category has products
+    // Cannot delete category with linked products
     const productCount = await prisma.product.count({
       where: { categoryId: id },
     })
@@ -90,9 +124,24 @@ export async function DELETE(
           message:
             "Cannot delete category because products are associated with it",
         },
-        { status: 400 },
+        { status: 400 }
       )
     }
+
+    for (const img of category.images) {
+      if (img.url.startsWith("/images/")) {
+        const filePath = path.join(process.cwd(), "public", img.url)
+        try {
+          await fs.unlink(filePath)
+        } catch {
+          // ignore missing file
+        }
+      }
+    }
+
+    await prisma.categoryImage.deleteMany({
+      where: { categoryId: id },
+    })
 
     await prisma.category.delete({
       where: { id },
@@ -100,13 +149,14 @@ export async function DELETE(
 
     return NextResponse.json(
       { message: "Category deleted successfully" },
-      { status: 200 },
+      { status: 200 }
     )
   } catch (error) {
     console.error("Error deleting category:", error)
     return NextResponse.json(
       { message: "Internal server error" },
-      { status: 500 },
+      { status: 500 }
     )
   }
 }
+
