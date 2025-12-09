@@ -8,26 +8,26 @@ import StripeProvider from "./stripe-provider"
 import { CartProvider } from "./context/cart-context"
 
 export const metadata: Metadata = {
-  title: "Next Commerce – Fashion for Men, Women & Accessories",
+  title: "Next Commerce – Gym Clothes & Workout Wear",
   description:
-    "Next Commerce is your modern e-commerce destination for stylish men's clothing, women's fashion, and essential accessories. Shop trends, quality products, and seamless online experiences.",
+    "Shop Next Commerce for the latest gym clothes and workout wear. Premium fitness apparel for men and women designed for performance and style.",
   generator: "Next Commerce",
   keywords: [
     "Next Commerce",
-    "online shopping",
-    "men's clothing",
-    "women's clothing",
-    "fashion accessories",
-    "ecommerce",
-    "fashion store",
-    "apparel",
+    "gym clothes",
+    "workout wear",
+    "fitness apparel",
+    "activewear",
+    "men's gym clothes",
+    "women's gym clothes",
+    "sportswear",
   ],
   authors: [{ name: "Next Commerce Team" }],
   applicationName: "Next Commerce",
   openGraph: {
-    title: "Next Commerce – Fashion for Men, Women & Accessories",
+    title: "Next Commerce – Gym Clothes & Workout Wear",
     description:
-      "Discover a curated collection of men's fashion, women's styles, and accessories at Next Commerce.",
+      "Discover premium gym clothes and workout accessories at Next Commerce. Elevate your training with our latest collections.",
     url: "https://next-commerce-vvvvvoneeeee.vercel.app/",
     siteName: "Next Commerce",
     type: "website",
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Next Commerce – Fashion Store",
+        alt: "Next Commerce – Gym & Fitness",
       },
     ],
   },
