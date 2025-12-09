@@ -72,9 +72,23 @@ enum Role {
 model Category {
   id       Int       @id @default(autoincrement())
   name     String    @unique
+  videoUrl String?
   products Product[]
   images   CategoryImage[] 
 }
+
+model Hero {
+  id          Int      @id @default(autoincrement())
+  title       String
+  subtitle    String?
+  videoUrl    String?  // URL to background video
+  imageUrl    String?  // Fallback image
+  link        String?  // CTA Link
+  buttonText  String?  // CTA Text
+  isActive    Boolean  @default(false) // To switch between hero banners
+  createdAt   DateTime @default(now())
+}
+
 
 model CategoryImage {
   id         Int       @id @default(autoincrement())

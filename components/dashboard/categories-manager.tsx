@@ -14,6 +14,7 @@ interface Category {
   id: number
   name: string
   images: { id: number; url: string; alt?: string | null }[]
+  videoUrl?: string | null
 }
 
 export function CategoriesManager() {
@@ -29,6 +30,7 @@ export function CategoriesManager() {
   const [formData, setFormData] = useState({
     name: "",
     imageUrl: "",
+    videoUrl: "",
   })
 
   // const { toast } = useToast()
@@ -82,6 +84,7 @@ export function CategoriesManager() {
 
     const payload = {
       name: formData.name,
+      videoUrl: formData.videoUrl,
       images: finalImageUrl ? [{ url: finalImageUrl }] : [],
     }
 
@@ -96,7 +99,7 @@ export function CategoriesManager() {
       return
     }
 
-    setFormData({ name: "", imageUrl: "" })
+    setFormData({ name: "", imageUrl: "", videoUrl: "" })
     setEditingId(null)
     setOpen(false)
     setImageFile(null)
@@ -115,6 +118,7 @@ export function CategoriesManager() {
     setFormData({
       name: category.name,
       imageUrl: category.images?.[0]?.url || "",
+      videoUrl: category.videoUrl || "",
     })
     setEditingId(category.id)
     setOpen(true)
@@ -123,7 +127,10 @@ export function CategoriesManager() {
   function handleOpenChange(newOpen: boolean) {
     setOpen(newOpen)
     if (!newOpen) {
-      setFormData({ name: "", imageUrl: "" })
+      if (!newOpen) {
+        setFormData({ name: "", imageUrl: "", videoUrl: "" })
+        setEditingId(null)
+      }
       setEditingId(null)
     }
   }
@@ -181,6 +188,15 @@ export function CategoriesManager() {
                     setFormData({ ...formData, imageUrl: e.target.value })
                     setPreview(e.target.value)
                   }}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Video URL (Optional)</label>
+                <Input
+                  placeholder="https://example.com/video.mp4"
+                  value={formData.videoUrl}
+                  onChange={(e) => setFormData({ ...formData, videoUrl: e.target.value })}
                 />
               </div>
 

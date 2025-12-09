@@ -46,9 +46,8 @@ export function TrendingSection() {
     <section className="w-full py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-white">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
-          <span className="text-sm font-bold text-blue-600 tracking-widest mb-4 block">TRENDING NOW</span>
-          <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">Best Sellers</h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">Discover the styles our customers love most</p>
+          <h2 className="text-4xl md:text-5xl font-black text-black mb-4 uppercase tracking-tighter">Trending Now</h2>
+          <p className="text-gray-500 font-medium tracking-wide border-b-2 border-transparent hover:border-black inline-block transition-all cursor-pointer">View All Best Sellers</p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

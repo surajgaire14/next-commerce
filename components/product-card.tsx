@@ -41,122 +41,67 @@ export function ProductCard({ product }: { product: Product }) {
   }
 
   return (
-    <div className="bg-white rounded-lg overflow-hidden group h-full flex flex-col border border-gray-100">
+    <div className="group relative flex flex-col h-full bg-transparent">
       {/* Product Image */}
-      <div className="relative overflow-hidden bg-gray-100 h-80">
+      <div className="relative aspect-[3/4] overflow-hidden rounded-xl bg-gray-100 mb-4">
         <img
           src={product.image || "/placeholder.svg"}
           alt={product.name}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
+
+        {/* Wishlist Button */}
         <button
           onClick={() => setIsWishlisted(!isWishlisted)}
-          className="absolute top-4 right-4 bg-white rounded-full p-2.5 opacity-0 group-hover:opacity-100 transition-all hover:scale-110"
+          className="absolute top-3 right-3 rounded-full bg-white/80 p-2 backdrop-blur-sm transition-opacity opacity-0 group-hover:opacity-100 hover:bg-white"
         >
-          <Heart size={18} className={isWishlisted ? "fill-red-500 text-red-500" : "text-gray-400"} />
+          <Heart size={18} className={isWishlisted ? "fill-red-500 text-red-500" : "text-black"} />
         </button>
 
         {/* Sale Badge */}
         {product.price < product.originalPrice && (
-          <div className="absolute top-4 left-4 bg-red-600 text-white px-3 py-1 rounded-full text-xs font-bold">
-            SALE
+          <div className="absolute top-3 left-3 bg-red-600 text-white px-2 py-1 text-xs font-bold uppercase tracking-wider">
+            Sale
           </div>
         )}
+
+        {/* Quick Add Overlay (Desktop) */}
+        <div className="absolute inset-x-0 bottom-0 p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100 hidden md:block">
+          <button
+            onClick={handleAddToCart}
+            className="w-full flex items-center justify-center gap-2 bg-white/90 backdrop-blur-md text-black font-bold py-3 rounded-full hover:bg-white transition-colors shadow-lg"
+          >
+            <ShoppingBag size={16} />
+            {isAdded ? "Added" : "Quick Add"}
+          </button>
+        </div>
       </div>
 
       {/* Product Info */}
-      <div className="p-4 flex flex-col flex-grow">
-        <div className="flex-grow">
-          <h3 className="text-sm font-bold text-black mb-2 line-clamp-2">{product.name}</h3>
+      <div className="flex flex-col gap-1">
+        <h3 className="text-base font-bold text-black leading-tight group-hover:underline decoration-1 underline-offset-4 line-clamp-1">
+          {product.name}
+        </h3>
 
-          {/* Price */}
-          <div className="mb-4">
-            <div className="flex items-center gap-2">
-              <p className="text-lg font-bold text-black">${product.price.toFixed(2)}</p>
-              {product.price < product.originalPrice && (
-                <p className="text-sm text-gray-500 line-through">${product.originalPrice.toFixed(2)}</p>
-              )}
-            </div>
-          </div>
-
-          {/* Color Preview */}
-          <div className="mb-4">
-            <p className="text-xs font-bold text-gray-700 mb-2">Available in {product.colors.length} colors</p>
-            <div className="flex gap-2">
-              {product.colors.slice(0, 4).map((color) => (
-                <div
-                  key={color}
-                  className={`w-6 h-6 rounded-full border-2 transition cursor-pointer ${selectedColor === color ? "border-black scale-110" : "border-gray-300"
-                    } ${getColorClass(color)}`}
-                  onClick={() => setSelectedColor(color)}
-                  title={color}
-                />
-              ))}
-              {product.colors.length > 4 && (
-                <div className="w-6 h-6 rounded-full border-2 border-gray-300 flex items-center justify-center text-xs font-bold text-gray-600">
-                  +{product.colors.length - 4}
-                </div>
-              )}
-            </div>
-          </div>
+        <div className="flex items-center gap-2 text-sm">
+          <span className="font-medium text-gray-500">{product.colors.length} Colors</span>
         </div>
 
-        {/* Variant Selector */}
-        <button
-          onClick={() => setShowVariants(!showVariants)}
-          className="w-full text-left text-xs font-medium text-gray-600 hover:text-black transition mb-3 pb-3 border-b border-gray-200"
-        >
-          Select Options
-        </button>
+        <div className="flex items-center gap-2 mt-1">
+          <p className="text-base font-bold text-black">${product.price.toFixed(2)}</p>
+          {product.price < product.originalPrice && (
+            <p className="text-sm text-gray-400 line-through">${product.originalPrice.toFixed(2)}</p>
+          )}
+        </div>
+      </div>
 
-        {/* Variants Dropdown */}
-        {showVariants && (
-          <div className="mb-3 pb-3 border-b border-gray-200 space-y-3">
-            {/* Colors */}
-            <div>
-              <p className="text-xs font-bold text-gray-700 mb-2">Color</p>
-              <div className="flex flex-wrap gap-2">
-                {product.colors.map((color) => (
-                  <button
-                    key={color}
-                    onClick={() => setSelectedColor(color)}
-                    className={`w-8 h-8 rounded-full border-2 transition ${selectedColor === color ? "border-black scale-110" : "border-gray-300"
-                      } ${getColorClass(color)}`}
-                    title={color}
-                  />
-                ))}
-              </div>
-            </div>
-
-            {/* Sizes */}
-            <div>
-              <p className="text-xs font-bold text-gray-700 mb-2">Size</p>
-              <div className="flex flex-wrap gap-2">
-                {product.sizes.map((size) => (
-                  <button
-                    key={size}
-                    onClick={() => setSelectedSize(size)}
-                    className={`px-3 py-1 text-xs font-medium border rounded transition ${selectedSize === size
-                        ? "bg-black text-white border-black"
-                        : "border-gray-300 text-gray-700 hover:border-black"
-                      }`}
-                  >
-                    {size}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Add to Cart */}
+      {/* Mobile Add to Cart (Simple Text Button below) */}
+      <div className="mt-3 md:hidden">
         <button
           onClick={handleAddToCart}
-          className={`w-full py-3 rounded-lg font-bold text-sm transition flex items-center justify-center gap-2 ${isAdded ? "bg-green-600 text-white" : "bg-black text-white hover:bg-gray-900"
-            }`}
+          className="w-full py-2 border border-black text-black font-bold text-xs uppercase tracking-wider rounded hover:bg-black hover:text-white transition-colors"
         >
-          <ShoppingBag size={16} />
-          {isAdded ? "ADDED!" : "ADD TO CART"}
+          {isAdded ? "Added" : "Add to Cart"}
         </button>
       </div>
     </div>

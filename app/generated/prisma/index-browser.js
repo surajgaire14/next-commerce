@@ -162,7 +162,20 @@ exports.Prisma.VerificationTokenScalarFieldEnum = {
 
 exports.Prisma.CategoryScalarFieldEnum = {
   id: 'id',
-  name: 'name'
+  name: 'name',
+  videoUrl: 'videoUrl'
+};
+
+exports.Prisma.HeroScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  subtitle: 'subtitle',
+  videoUrl: 'videoUrl',
+  imageUrl: 'imageUrl',
+  link: 'link',
+  buttonText: 'buttonText',
+  isActive: 'isActive',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.CategoryImageScalarFieldEnum = {
@@ -247,6 +260,7 @@ exports.Prisma.ModelName = {
   Session: 'Session',
   VerificationToken: 'VerificationToken',
   Category: 'Category',
+  Hero: 'Hero',
   CategoryImage: 'CategoryImage',
   Product: 'Product',
   ProductVariant: 'ProductVariant',

@@ -39,6 +39,11 @@ export type VerificationToken = $Result.DefaultSelection<Prisma.$VerificationTok
  */
 export type Category = $Result.DefaultSelection<Prisma.$CategoryPayload>
 /**
+ * Model Hero
+ * 
+ */
+export type Hero = $Result.DefaultSelection<Prisma.$HeroPayload>
+/**
  * Model CategoryImage
  * 
  */
@@ -252,6 +257,16 @@ export class PrismaClient<
     * ```
     */
   get category(): Prisma.CategoryDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.hero`: Exposes CRUD operations for the **Hero** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Heroes
+    * const heroes = await prisma.hero.findMany()
+    * ```
+    */
+  get hero(): Prisma.HeroDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.categoryImage`: Exposes CRUD operations for the **CategoryImage** model.
@@ -751,6 +766,7 @@ export namespace Prisma {
     Session: 'Session',
     VerificationToken: 'VerificationToken',
     Category: 'Category',
+    Hero: 'Hero',
     CategoryImage: 'CategoryImage',
     Product: 'Product',
     ProductVariant: 'ProductVariant',
@@ -772,7 +788,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "account" | "session" | "verificationToken" | "category" | "categoryImage" | "product" | "productVariant" | "productImage" | "order" | "orderItem"
+      modelProps: "user" | "account" | "session" | "verificationToken" | "category" | "hero" | "categoryImage" | "product" | "productVariant" | "productImage" | "order" | "orderItem"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1143,6 +1159,80 @@ export namespace Prisma {
           count: {
             args: Prisma.CategoryCountArgs<ExtArgs>
             result: $Utils.Optional<CategoryCountAggregateOutputType> | number
+          }
+        }
+      }
+      Hero: {
+        payload: Prisma.$HeroPayload<ExtArgs>
+        fields: Prisma.HeroFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.HeroFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HeroPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.HeroFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HeroPayload>
+          }
+          findFirst: {
+            args: Prisma.HeroFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HeroPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.HeroFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HeroPayload>
+          }
+          findMany: {
+            args: Prisma.HeroFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HeroPayload>[]
+          }
+          create: {
+            args: Prisma.HeroCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HeroPayload>
+          }
+          createMany: {
+            args: Prisma.HeroCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.HeroCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HeroPayload>[]
+          }
+          delete: {
+            args: Prisma.HeroDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HeroPayload>
+          }
+          update: {
+            args: Prisma.HeroUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HeroPayload>
+          }
+          deleteMany: {
+            args: Prisma.HeroDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.HeroUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.HeroUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HeroPayload>[]
+          }
+          upsert: {
+            args: Prisma.HeroUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HeroPayload>
+          }
+          aggregate: {
+            args: Prisma.HeroAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateHero>
+          }
+          groupBy: {
+            args: Prisma.HeroGroupByArgs<ExtArgs>
+            result: $Utils.Optional<HeroGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.HeroCountArgs<ExtArgs>
+            result: $Utils.Optional<HeroCountAggregateOutputType> | number
           }
         }
       }
@@ -1687,6 +1777,7 @@ export namespace Prisma {
     session?: SessionOmit
     verificationToken?: VerificationTokenOmit
     category?: CategoryOmit
+    hero?: HeroOmit
     categoryImage?: CategoryImageOmit
     product?: ProductOmit
     productVariant?: ProductVariantOmit
@@ -6370,16 +6461,19 @@ export namespace Prisma {
   export type CategoryMinAggregateOutputType = {
     id: number | null
     name: string | null
+    videoUrl: string | null
   }
 
   export type CategoryMaxAggregateOutputType = {
     id: number | null
     name: string | null
+    videoUrl: string | null
   }
 
   export type CategoryCountAggregateOutputType = {
     id: number
     name: number
+    videoUrl: number
     _all: number
   }
 
@@ -6395,16 +6489,19 @@ export namespace Prisma {
   export type CategoryMinAggregateInputType = {
     id?: true
     name?: true
+    videoUrl?: true
   }
 
   export type CategoryMaxAggregateInputType = {
     id?: true
     name?: true
+    videoUrl?: true
   }
 
   export type CategoryCountAggregateInputType = {
     id?: true
     name?: true
+    videoUrl?: true
     _all?: true
   }
 
@@ -6497,6 +6594,7 @@ export namespace Prisma {
   export type CategoryGroupByOutputType = {
     id: number
     name: string
+    videoUrl: string | null
     _count: CategoryCountAggregateOutputType | null
     _avg: CategoryAvgAggregateOutputType | null
     _sum: CategorySumAggregateOutputType | null
@@ -6521,6 +6619,7 @@ export namespace Prisma {
   export type CategorySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    videoUrl?: boolean
     products?: boolean | Category$productsArgs<ExtArgs>
     images?: boolean | Category$imagesArgs<ExtArgs>
     _count?: boolean | CategoryCountOutputTypeDefaultArgs<ExtArgs>
@@ -6529,19 +6628,22 @@ export namespace Prisma {
   export type CategorySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    videoUrl?: boolean
   }, ExtArgs["result"]["category"]>
 
   export type CategorySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    videoUrl?: boolean
   }, ExtArgs["result"]["category"]>
 
   export type CategorySelectScalar = {
     id?: boolean
     name?: boolean
+    videoUrl?: boolean
   }
 
-  export type CategoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name", ExtArgs["result"]["category"]>
+  export type CategoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "videoUrl", ExtArgs["result"]["category"]>
   export type CategoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     products?: boolean | Category$productsArgs<ExtArgs>
     images?: boolean | Category$imagesArgs<ExtArgs>
@@ -6559,6 +6661,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: number
       name: string
+      videoUrl: string | null
     }, ExtArgs["result"]["category"]>
     composites: {}
   }
@@ -6986,6 +7089,7 @@ export namespace Prisma {
   interface CategoryFieldRefs {
     readonly id: FieldRef<"Category", 'Int'>
     readonly name: FieldRef<"Category", 'String'>
+    readonly videoUrl: FieldRef<"Category", 'String'>
   }
     
 
@@ -7437,6 +7541,1087 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: CategoryInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Hero
+   */
+
+  export type AggregateHero = {
+    _count: HeroCountAggregateOutputType | null
+    _avg: HeroAvgAggregateOutputType | null
+    _sum: HeroSumAggregateOutputType | null
+    _min: HeroMinAggregateOutputType | null
+    _max: HeroMaxAggregateOutputType | null
+  }
+
+  export type HeroAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type HeroSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type HeroMinAggregateOutputType = {
+    id: number | null
+    title: string | null
+    subtitle: string | null
+    videoUrl: string | null
+    imageUrl: string | null
+    link: string | null
+    buttonText: string | null
+    isActive: boolean | null
+    createdAt: Date | null
+  }
+
+  export type HeroMaxAggregateOutputType = {
+    id: number | null
+    title: string | null
+    subtitle: string | null
+    videoUrl: string | null
+    imageUrl: string | null
+    link: string | null
+    buttonText: string | null
+    isActive: boolean | null
+    createdAt: Date | null
+  }
+
+  export type HeroCountAggregateOutputType = {
+    id: number
+    title: number
+    subtitle: number
+    videoUrl: number
+    imageUrl: number
+    link: number
+    buttonText: number
+    isActive: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type HeroAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type HeroSumAggregateInputType = {
+    id?: true
+  }
+
+  export type HeroMinAggregateInputType = {
+    id?: true
+    title?: true
+    subtitle?: true
+    videoUrl?: true
+    imageUrl?: true
+    link?: true
+    buttonText?: true
+    isActive?: true
+    createdAt?: true
+  }
+
+  export type HeroMaxAggregateInputType = {
+    id?: true
+    title?: true
+    subtitle?: true
+    videoUrl?: true
+    imageUrl?: true
+    link?: true
+    buttonText?: true
+    isActive?: true
+    createdAt?: true
+  }
+
+  export type HeroCountAggregateInputType = {
+    id?: true
+    title?: true
+    subtitle?: true
+    videoUrl?: true
+    imageUrl?: true
+    link?: true
+    buttonText?: true
+    isActive?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type HeroAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Hero to aggregate.
+     */
+    where?: HeroWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Heroes to fetch.
+     */
+    orderBy?: HeroOrderByWithRelationInput | HeroOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: HeroWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Heroes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Heroes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Heroes
+    **/
+    _count?: true | HeroCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: HeroAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: HeroSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: HeroMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: HeroMaxAggregateInputType
+  }
+
+  export type GetHeroAggregateType<T extends HeroAggregateArgs> = {
+        [P in keyof T & keyof AggregateHero]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateHero[P]>
+      : GetScalarType<T[P], AggregateHero[P]>
+  }
+
+
+
+
+  export type HeroGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: HeroWhereInput
+    orderBy?: HeroOrderByWithAggregationInput | HeroOrderByWithAggregationInput[]
+    by: HeroScalarFieldEnum[] | HeroScalarFieldEnum
+    having?: HeroScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: HeroCountAggregateInputType | true
+    _avg?: HeroAvgAggregateInputType
+    _sum?: HeroSumAggregateInputType
+    _min?: HeroMinAggregateInputType
+    _max?: HeroMaxAggregateInputType
+  }
+
+  export type HeroGroupByOutputType = {
+    id: number
+    title: string
+    subtitle: string | null
+    videoUrl: string | null
+    imageUrl: string | null
+    link: string | null
+    buttonText: string | null
+    isActive: boolean
+    createdAt: Date
+    _count: HeroCountAggregateOutputType | null
+    _avg: HeroAvgAggregateOutputType | null
+    _sum: HeroSumAggregateOutputType | null
+    _min: HeroMinAggregateOutputType | null
+    _max: HeroMaxAggregateOutputType | null
+  }
+
+  type GetHeroGroupByPayload<T extends HeroGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<HeroGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof HeroGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], HeroGroupByOutputType[P]>
+            : GetScalarType<T[P], HeroGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type HeroSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    subtitle?: boolean
+    videoUrl?: boolean
+    imageUrl?: boolean
+    link?: boolean
+    buttonText?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["hero"]>
+
+  export type HeroSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    subtitle?: boolean
+    videoUrl?: boolean
+    imageUrl?: boolean
+    link?: boolean
+    buttonText?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["hero"]>
+
+  export type HeroSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    subtitle?: boolean
+    videoUrl?: boolean
+    imageUrl?: boolean
+    link?: boolean
+    buttonText?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["hero"]>
+
+  export type HeroSelectScalar = {
+    id?: boolean
+    title?: boolean
+    subtitle?: boolean
+    videoUrl?: boolean
+    imageUrl?: boolean
+    link?: boolean
+    buttonText?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+  }
+
+  export type HeroOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "subtitle" | "videoUrl" | "imageUrl" | "link" | "buttonText" | "isActive" | "createdAt", ExtArgs["result"]["hero"]>
+
+  export type $HeroPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Hero"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      title: string
+      subtitle: string | null
+      videoUrl: string | null
+      imageUrl: string | null
+      link: string | null
+      buttonText: string | null
+      isActive: boolean
+      createdAt: Date
+    }, ExtArgs["result"]["hero"]>
+    composites: {}
+  }
+
+  type HeroGetPayload<S extends boolean | null | undefined | HeroDefaultArgs> = $Result.GetResult<Prisma.$HeroPayload, S>
+
+  type HeroCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<HeroFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: HeroCountAggregateInputType | true
+    }
+
+  export interface HeroDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Hero'], meta: { name: 'Hero' } }
+    /**
+     * Find zero or one Hero that matches the filter.
+     * @param {HeroFindUniqueArgs} args - Arguments to find a Hero
+     * @example
+     * // Get one Hero
+     * const hero = await prisma.hero.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends HeroFindUniqueArgs>(args: SelectSubset<T, HeroFindUniqueArgs<ExtArgs>>): Prisma__HeroClient<$Result.GetResult<Prisma.$HeroPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Hero that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {HeroFindUniqueOrThrowArgs} args - Arguments to find a Hero
+     * @example
+     * // Get one Hero
+     * const hero = await prisma.hero.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends HeroFindUniqueOrThrowArgs>(args: SelectSubset<T, HeroFindUniqueOrThrowArgs<ExtArgs>>): Prisma__HeroClient<$Result.GetResult<Prisma.$HeroPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Hero that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HeroFindFirstArgs} args - Arguments to find a Hero
+     * @example
+     * // Get one Hero
+     * const hero = await prisma.hero.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends HeroFindFirstArgs>(args?: SelectSubset<T, HeroFindFirstArgs<ExtArgs>>): Prisma__HeroClient<$Result.GetResult<Prisma.$HeroPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Hero that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HeroFindFirstOrThrowArgs} args - Arguments to find a Hero
+     * @example
+     * // Get one Hero
+     * const hero = await prisma.hero.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends HeroFindFirstOrThrowArgs>(args?: SelectSubset<T, HeroFindFirstOrThrowArgs<ExtArgs>>): Prisma__HeroClient<$Result.GetResult<Prisma.$HeroPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Heroes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HeroFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Heroes
+     * const heroes = await prisma.hero.findMany()
+     * 
+     * // Get first 10 Heroes
+     * const heroes = await prisma.hero.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const heroWithIdOnly = await prisma.hero.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends HeroFindManyArgs>(args?: SelectSubset<T, HeroFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HeroPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Hero.
+     * @param {HeroCreateArgs} args - Arguments to create a Hero.
+     * @example
+     * // Create one Hero
+     * const Hero = await prisma.hero.create({
+     *   data: {
+     *     // ... data to create a Hero
+     *   }
+     * })
+     * 
+     */
+    create<T extends HeroCreateArgs>(args: SelectSubset<T, HeroCreateArgs<ExtArgs>>): Prisma__HeroClient<$Result.GetResult<Prisma.$HeroPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Heroes.
+     * @param {HeroCreateManyArgs} args - Arguments to create many Heroes.
+     * @example
+     * // Create many Heroes
+     * const hero = await prisma.hero.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends HeroCreateManyArgs>(args?: SelectSubset<T, HeroCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Heroes and returns the data saved in the database.
+     * @param {HeroCreateManyAndReturnArgs} args - Arguments to create many Heroes.
+     * @example
+     * // Create many Heroes
+     * const hero = await prisma.hero.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Heroes and only return the `id`
+     * const heroWithIdOnly = await prisma.hero.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends HeroCreateManyAndReturnArgs>(args?: SelectSubset<T, HeroCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HeroPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Hero.
+     * @param {HeroDeleteArgs} args - Arguments to delete one Hero.
+     * @example
+     * // Delete one Hero
+     * const Hero = await prisma.hero.delete({
+     *   where: {
+     *     // ... filter to delete one Hero
+     *   }
+     * })
+     * 
+     */
+    delete<T extends HeroDeleteArgs>(args: SelectSubset<T, HeroDeleteArgs<ExtArgs>>): Prisma__HeroClient<$Result.GetResult<Prisma.$HeroPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Hero.
+     * @param {HeroUpdateArgs} args - Arguments to update one Hero.
+     * @example
+     * // Update one Hero
+     * const hero = await prisma.hero.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends HeroUpdateArgs>(args: SelectSubset<T, HeroUpdateArgs<ExtArgs>>): Prisma__HeroClient<$Result.GetResult<Prisma.$HeroPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Heroes.
+     * @param {HeroDeleteManyArgs} args - Arguments to filter Heroes to delete.
+     * @example
+     * // Delete a few Heroes
+     * const { count } = await prisma.hero.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends HeroDeleteManyArgs>(args?: SelectSubset<T, HeroDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Heroes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HeroUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Heroes
+     * const hero = await prisma.hero.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends HeroUpdateManyArgs>(args: SelectSubset<T, HeroUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Heroes and returns the data updated in the database.
+     * @param {HeroUpdateManyAndReturnArgs} args - Arguments to update many Heroes.
+     * @example
+     * // Update many Heroes
+     * const hero = await prisma.hero.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Heroes and only return the `id`
+     * const heroWithIdOnly = await prisma.hero.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends HeroUpdateManyAndReturnArgs>(args: SelectSubset<T, HeroUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HeroPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Hero.
+     * @param {HeroUpsertArgs} args - Arguments to update or create a Hero.
+     * @example
+     * // Update or create a Hero
+     * const hero = await prisma.hero.upsert({
+     *   create: {
+     *     // ... data to create a Hero
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Hero we want to update
+     *   }
+     * })
+     */
+    upsert<T extends HeroUpsertArgs>(args: SelectSubset<T, HeroUpsertArgs<ExtArgs>>): Prisma__HeroClient<$Result.GetResult<Prisma.$HeroPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Heroes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HeroCountArgs} args - Arguments to filter Heroes to count.
+     * @example
+     * // Count the number of Heroes
+     * const count = await prisma.hero.count({
+     *   where: {
+     *     // ... the filter for the Heroes we want to count
+     *   }
+     * })
+    **/
+    count<T extends HeroCountArgs>(
+      args?: Subset<T, HeroCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], HeroCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Hero.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HeroAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends HeroAggregateArgs>(args: Subset<T, HeroAggregateArgs>): Prisma.PrismaPromise<GetHeroAggregateType<T>>
+
+    /**
+     * Group by Hero.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HeroGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends HeroGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: HeroGroupByArgs['orderBy'] }
+        : { orderBy?: HeroGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, HeroGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetHeroGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Hero model
+   */
+  readonly fields: HeroFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Hero.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__HeroClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Hero model
+   */
+  interface HeroFieldRefs {
+    readonly id: FieldRef<"Hero", 'Int'>
+    readonly title: FieldRef<"Hero", 'String'>
+    readonly subtitle: FieldRef<"Hero", 'String'>
+    readonly videoUrl: FieldRef<"Hero", 'String'>
+    readonly imageUrl: FieldRef<"Hero", 'String'>
+    readonly link: FieldRef<"Hero", 'String'>
+    readonly buttonText: FieldRef<"Hero", 'String'>
+    readonly isActive: FieldRef<"Hero", 'Boolean'>
+    readonly createdAt: FieldRef<"Hero", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Hero findUnique
+   */
+  export type HeroFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Hero
+     */
+    select?: HeroSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Hero
+     */
+    omit?: HeroOmit<ExtArgs> | null
+    /**
+     * Filter, which Hero to fetch.
+     */
+    where: HeroWhereUniqueInput
+  }
+
+  /**
+   * Hero findUniqueOrThrow
+   */
+  export type HeroFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Hero
+     */
+    select?: HeroSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Hero
+     */
+    omit?: HeroOmit<ExtArgs> | null
+    /**
+     * Filter, which Hero to fetch.
+     */
+    where: HeroWhereUniqueInput
+  }
+
+  /**
+   * Hero findFirst
+   */
+  export type HeroFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Hero
+     */
+    select?: HeroSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Hero
+     */
+    omit?: HeroOmit<ExtArgs> | null
+    /**
+     * Filter, which Hero to fetch.
+     */
+    where?: HeroWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Heroes to fetch.
+     */
+    orderBy?: HeroOrderByWithRelationInput | HeroOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Heroes.
+     */
+    cursor?: HeroWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Heroes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Heroes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Heroes.
+     */
+    distinct?: HeroScalarFieldEnum | HeroScalarFieldEnum[]
+  }
+
+  /**
+   * Hero findFirstOrThrow
+   */
+  export type HeroFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Hero
+     */
+    select?: HeroSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Hero
+     */
+    omit?: HeroOmit<ExtArgs> | null
+    /**
+     * Filter, which Hero to fetch.
+     */
+    where?: HeroWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Heroes to fetch.
+     */
+    orderBy?: HeroOrderByWithRelationInput | HeroOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Heroes.
+     */
+    cursor?: HeroWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Heroes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Heroes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Heroes.
+     */
+    distinct?: HeroScalarFieldEnum | HeroScalarFieldEnum[]
+  }
+
+  /**
+   * Hero findMany
+   */
+  export type HeroFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Hero
+     */
+    select?: HeroSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Hero
+     */
+    omit?: HeroOmit<ExtArgs> | null
+    /**
+     * Filter, which Heroes to fetch.
+     */
+    where?: HeroWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Heroes to fetch.
+     */
+    orderBy?: HeroOrderByWithRelationInput | HeroOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Heroes.
+     */
+    cursor?: HeroWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Heroes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Heroes.
+     */
+    skip?: number
+    distinct?: HeroScalarFieldEnum | HeroScalarFieldEnum[]
+  }
+
+  /**
+   * Hero create
+   */
+  export type HeroCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Hero
+     */
+    select?: HeroSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Hero
+     */
+    omit?: HeroOmit<ExtArgs> | null
+    /**
+     * The data needed to create a Hero.
+     */
+    data: XOR<HeroCreateInput, HeroUncheckedCreateInput>
+  }
+
+  /**
+   * Hero createMany
+   */
+  export type HeroCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Heroes.
+     */
+    data: HeroCreateManyInput | HeroCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Hero createManyAndReturn
+   */
+  export type HeroCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Hero
+     */
+    select?: HeroSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Hero
+     */
+    omit?: HeroOmit<ExtArgs> | null
+    /**
+     * The data used to create many Heroes.
+     */
+    data: HeroCreateManyInput | HeroCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Hero update
+   */
+  export type HeroUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Hero
+     */
+    select?: HeroSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Hero
+     */
+    omit?: HeroOmit<ExtArgs> | null
+    /**
+     * The data needed to update a Hero.
+     */
+    data: XOR<HeroUpdateInput, HeroUncheckedUpdateInput>
+    /**
+     * Choose, which Hero to update.
+     */
+    where: HeroWhereUniqueInput
+  }
+
+  /**
+   * Hero updateMany
+   */
+  export type HeroUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Heroes.
+     */
+    data: XOR<HeroUpdateManyMutationInput, HeroUncheckedUpdateManyInput>
+    /**
+     * Filter which Heroes to update
+     */
+    where?: HeroWhereInput
+    /**
+     * Limit how many Heroes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Hero updateManyAndReturn
+   */
+  export type HeroUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Hero
+     */
+    select?: HeroSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Hero
+     */
+    omit?: HeroOmit<ExtArgs> | null
+    /**
+     * The data used to update Heroes.
+     */
+    data: XOR<HeroUpdateManyMutationInput, HeroUncheckedUpdateManyInput>
+    /**
+     * Filter which Heroes to update
+     */
+    where?: HeroWhereInput
+    /**
+     * Limit how many Heroes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Hero upsert
+   */
+  export type HeroUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Hero
+     */
+    select?: HeroSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Hero
+     */
+    omit?: HeroOmit<ExtArgs> | null
+    /**
+     * The filter to search for the Hero to update in case it exists.
+     */
+    where: HeroWhereUniqueInput
+    /**
+     * In case the Hero found by the `where` argument doesn't exist, create a new Hero with this data.
+     */
+    create: XOR<HeroCreateInput, HeroUncheckedCreateInput>
+    /**
+     * In case the Hero was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<HeroUpdateInput, HeroUncheckedUpdateInput>
+  }
+
+  /**
+   * Hero delete
+   */
+  export type HeroDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Hero
+     */
+    select?: HeroSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Hero
+     */
+    omit?: HeroOmit<ExtArgs> | null
+    /**
+     * Filter which Hero to delete.
+     */
+    where: HeroWhereUniqueInput
+  }
+
+  /**
+   * Hero deleteMany
+   */
+  export type HeroDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Heroes to delete
+     */
+    where?: HeroWhereInput
+    /**
+     * Limit how many Heroes to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Hero without action
+   */
+  export type HeroDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Hero
+     */
+    select?: HeroSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Hero
+     */
+    omit?: HeroOmit<ExtArgs> | null
   }
 
 
@@ -14429,10 +15614,26 @@ export namespace Prisma {
 
   export const CategoryScalarFieldEnum: {
     id: 'id',
-    name: 'name'
+    name: 'name',
+    videoUrl: 'videoUrl'
   };
 
   export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
+
+
+  export const HeroScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    subtitle: 'subtitle',
+    videoUrl: 'videoUrl',
+    imageUrl: 'imageUrl',
+    link: 'link',
+    buttonText: 'buttonText',
+    isActive: 'isActive',
+    createdAt: 'createdAt'
+  };
+
+  export type HeroScalarFieldEnum = (typeof HeroScalarFieldEnum)[keyof typeof HeroScalarFieldEnum]
 
 
   export const CategoryImageScalarFieldEnum: {
@@ -14592,6 +15793,13 @@ export namespace Prisma {
    * Reference to a field of type 'Int[]'
    */
   export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -14899,6 +16107,7 @@ export namespace Prisma {
     NOT?: CategoryWhereInput | CategoryWhereInput[]
     id?: IntFilter<"Category"> | number
     name?: StringFilter<"Category"> | string
+    videoUrl?: StringNullableFilter<"Category"> | string | null
     products?: ProductListRelationFilter
     images?: CategoryImageListRelationFilter
   }
@@ -14906,6 +16115,7 @@ export namespace Prisma {
   export type CategoryOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
+    videoUrl?: SortOrderInput | SortOrder
     products?: ProductOrderByRelationAggregateInput
     images?: CategoryImageOrderByRelationAggregateInput
   }
@@ -14916,6 +16126,7 @@ export namespace Prisma {
     AND?: CategoryWhereInput | CategoryWhereInput[]
     OR?: CategoryWhereInput[]
     NOT?: CategoryWhereInput | CategoryWhereInput[]
+    videoUrl?: StringNullableFilter<"Category"> | string | null
     products?: ProductListRelationFilter
     images?: CategoryImageListRelationFilter
   }, "id" | "name">
@@ -14923,6 +16134,7 @@ export namespace Prisma {
   export type CategoryOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
+    videoUrl?: SortOrderInput | SortOrder
     _count?: CategoryCountOrderByAggregateInput
     _avg?: CategoryAvgOrderByAggregateInput
     _max?: CategoryMaxOrderByAggregateInput
@@ -14936,6 +16148,81 @@ export namespace Prisma {
     NOT?: CategoryScalarWhereWithAggregatesInput | CategoryScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Category"> | number
     name?: StringWithAggregatesFilter<"Category"> | string
+    videoUrl?: StringNullableWithAggregatesFilter<"Category"> | string | null
+  }
+
+  export type HeroWhereInput = {
+    AND?: HeroWhereInput | HeroWhereInput[]
+    OR?: HeroWhereInput[]
+    NOT?: HeroWhereInput | HeroWhereInput[]
+    id?: IntFilter<"Hero"> | number
+    title?: StringFilter<"Hero"> | string
+    subtitle?: StringNullableFilter<"Hero"> | string | null
+    videoUrl?: StringNullableFilter<"Hero"> | string | null
+    imageUrl?: StringNullableFilter<"Hero"> | string | null
+    link?: StringNullableFilter<"Hero"> | string | null
+    buttonText?: StringNullableFilter<"Hero"> | string | null
+    isActive?: BoolFilter<"Hero"> | boolean
+    createdAt?: DateTimeFilter<"Hero"> | Date | string
+  }
+
+  export type HeroOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    subtitle?: SortOrderInput | SortOrder
+    videoUrl?: SortOrderInput | SortOrder
+    imageUrl?: SortOrderInput | SortOrder
+    link?: SortOrderInput | SortOrder
+    buttonText?: SortOrderInput | SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type HeroWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: HeroWhereInput | HeroWhereInput[]
+    OR?: HeroWhereInput[]
+    NOT?: HeroWhereInput | HeroWhereInput[]
+    title?: StringFilter<"Hero"> | string
+    subtitle?: StringNullableFilter<"Hero"> | string | null
+    videoUrl?: StringNullableFilter<"Hero"> | string | null
+    imageUrl?: StringNullableFilter<"Hero"> | string | null
+    link?: StringNullableFilter<"Hero"> | string | null
+    buttonText?: StringNullableFilter<"Hero"> | string | null
+    isActive?: BoolFilter<"Hero"> | boolean
+    createdAt?: DateTimeFilter<"Hero"> | Date | string
+  }, "id">
+
+  export type HeroOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    subtitle?: SortOrderInput | SortOrder
+    videoUrl?: SortOrderInput | SortOrder
+    imageUrl?: SortOrderInput | SortOrder
+    link?: SortOrderInput | SortOrder
+    buttonText?: SortOrderInput | SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    _count?: HeroCountOrderByAggregateInput
+    _avg?: HeroAvgOrderByAggregateInput
+    _max?: HeroMaxOrderByAggregateInput
+    _min?: HeroMinOrderByAggregateInput
+    _sum?: HeroSumOrderByAggregateInput
+  }
+
+  export type HeroScalarWhereWithAggregatesInput = {
+    AND?: HeroScalarWhereWithAggregatesInput | HeroScalarWhereWithAggregatesInput[]
+    OR?: HeroScalarWhereWithAggregatesInput[]
+    NOT?: HeroScalarWhereWithAggregatesInput | HeroScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Hero"> | number
+    title?: StringWithAggregatesFilter<"Hero"> | string
+    subtitle?: StringNullableWithAggregatesFilter<"Hero"> | string | null
+    videoUrl?: StringNullableWithAggregatesFilter<"Hero"> | string | null
+    imageUrl?: StringNullableWithAggregatesFilter<"Hero"> | string | null
+    link?: StringNullableWithAggregatesFilter<"Hero"> | string | null
+    buttonText?: StringNullableWithAggregatesFilter<"Hero"> | string | null
+    isActive?: BoolWithAggregatesFilter<"Hero"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Hero"> | Date | string
   }
 
   export type CategoryImageWhereInput = {
@@ -15639,6 +16926,7 @@ export namespace Prisma {
 
   export type CategoryCreateInput = {
     name: string
+    videoUrl?: string | null
     products?: ProductCreateNestedManyWithoutCategoryInput
     images?: CategoryImageCreateNestedManyWithoutCategoryInput
   }
@@ -15646,12 +16934,14 @@ export namespace Prisma {
   export type CategoryUncheckedCreateInput = {
     id?: number
     name: string
+    videoUrl?: string | null
     products?: ProductUncheckedCreateNestedManyWithoutCategoryInput
     images?: CategoryImageUncheckedCreateNestedManyWithoutCategoryInput
   }
 
   export type CategoryUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
+    videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     products?: ProductUpdateManyWithoutCategoryNestedInput
     images?: CategoryImageUpdateManyWithoutCategoryNestedInput
   }
@@ -15659,6 +16949,7 @@ export namespace Prisma {
   export type CategoryUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
+    videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     products?: ProductUncheckedUpdateManyWithoutCategoryNestedInput
     images?: CategoryImageUncheckedUpdateManyWithoutCategoryNestedInput
   }
@@ -15666,15 +16957,99 @@ export namespace Prisma {
   export type CategoryCreateManyInput = {
     id?: number
     name: string
+    videoUrl?: string | null
   }
 
   export type CategoryUpdateManyMutationInput = {
     name?: StringFieldUpdateOperationsInput | string
+    videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type CategoryUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
+    videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type HeroCreateInput = {
+    title: string
+    subtitle?: string | null
+    videoUrl?: string | null
+    imageUrl?: string | null
+    link?: string | null
+    buttonText?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+  }
+
+  export type HeroUncheckedCreateInput = {
+    id?: number
+    title: string
+    subtitle?: string | null
+    videoUrl?: string | null
+    imageUrl?: string | null
+    link?: string | null
+    buttonText?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+  }
+
+  export type HeroUpdateInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    subtitle?: NullableStringFieldUpdateOperationsInput | string | null
+    videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    buttonText?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HeroUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    subtitle?: NullableStringFieldUpdateOperationsInput | string | null
+    videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    buttonText?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HeroCreateManyInput = {
+    id?: number
+    title: string
+    subtitle?: string | null
+    videoUrl?: string | null
+    imageUrl?: string | null
+    link?: string | null
+    buttonText?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+  }
+
+  export type HeroUpdateManyMutationInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    subtitle?: NullableStringFieldUpdateOperationsInput | string | null
+    videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    buttonText?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HeroUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    subtitle?: NullableStringFieldUpdateOperationsInput | string | null
+    videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    buttonText?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CategoryImageCreateInput = {
@@ -16442,6 +17817,7 @@ export namespace Prisma {
   export type CategoryCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    videoUrl?: SortOrder
   }
 
   export type CategoryAvgOrderByAggregateInput = {
@@ -16451,11 +17827,13 @@ export namespace Prisma {
   export type CategoryMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    videoUrl?: SortOrder
   }
 
   export type CategoryMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    videoUrl?: SortOrder
   }
 
   export type CategorySumOrderByAggregateInput = {
@@ -16476,6 +17854,63 @@ export namespace Prisma {
     _sum?: NestedIntFilter<$PrismaModel>
     _min?: NestedIntFilter<$PrismaModel>
     _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type HeroCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    subtitle?: SortOrder
+    videoUrl?: SortOrder
+    imageUrl?: SortOrder
+    link?: SortOrder
+    buttonText?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type HeroAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type HeroMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    subtitle?: SortOrder
+    videoUrl?: SortOrder
+    imageUrl?: SortOrder
+    link?: SortOrder
+    buttonText?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type HeroMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    subtitle?: SortOrder
+    videoUrl?: SortOrder
+    imageUrl?: SortOrder
+    link?: SortOrder
+    buttonText?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type HeroSumOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type CategoryScalarRelationFilter = {
@@ -17112,6 +18547,10 @@ export namespace Prisma {
     deleteMany?: CategoryImageScalarWhereInput | CategoryImageScalarWhereInput[]
   }
 
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
   export type CategoryCreateNestedOneWithoutImagesInput = {
     create?: XOR<CategoryCreateWithoutImagesInput, CategoryUncheckedCreateWithoutImagesInput>
     connectOrCreate?: CategoryCreateOrConnectWithoutImagesInput
@@ -17659,6 +19098,19 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type NestedDecimalFilter<$PrismaModel = never> = {
     equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
@@ -18146,12 +19598,14 @@ export namespace Prisma {
 
   export type CategoryCreateWithoutImagesInput = {
     name: string
+    videoUrl?: string | null
     products?: ProductCreateNestedManyWithoutCategoryInput
   }
 
   export type CategoryUncheckedCreateWithoutImagesInput = {
     id?: number
     name: string
+    videoUrl?: string | null
     products?: ProductUncheckedCreateNestedManyWithoutCategoryInput
   }
 
@@ -18173,23 +19627,27 @@ export namespace Prisma {
 
   export type CategoryUpdateWithoutImagesInput = {
     name?: StringFieldUpdateOperationsInput | string
+    videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     products?: ProductUpdateManyWithoutCategoryNestedInput
   }
 
   export type CategoryUncheckedUpdateWithoutImagesInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
+    videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     products?: ProductUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
   export type CategoryCreateWithoutProductsInput = {
     name: string
+    videoUrl?: string | null
     images?: CategoryImageCreateNestedManyWithoutCategoryInput
   }
 
   export type CategoryUncheckedCreateWithoutProductsInput = {
     id?: number
     name: string
+    videoUrl?: string | null
     images?: CategoryImageUncheckedCreateNestedManyWithoutCategoryInput
   }
 
@@ -18294,12 +19752,14 @@ export namespace Prisma {
 
   export type CategoryUpdateWithoutProductsInput = {
     name?: StringFieldUpdateOperationsInput | string
+    videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     images?: CategoryImageUpdateManyWithoutCategoryNestedInput
   }
 
   export type CategoryUncheckedUpdateWithoutProductsInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
+    videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     images?: CategoryImageUncheckedUpdateManyWithoutCategoryNestedInput
   }
 

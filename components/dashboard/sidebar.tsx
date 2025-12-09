@@ -14,6 +14,7 @@ interface SidebarProps {
 const navItems = [
   { icon: BarChart3, label: "Overview", href: "/admin" },
   { icon: Tag, label: "Categories", href: "/admin/categories" },
+  { icon: Database, label: "Hero", href: "/admin/hero" },
   { icon: Package, label: "Products", href: "/admin/products" },
   { icon: Database, label: "Data", href: "/admin/data" },
 ]

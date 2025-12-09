@@ -5,7 +5,7 @@ import { useState, useEffect } from "react"
 
 export function PromoBar() {
   const promos = [
-    "NEVERHOME PREMIER SHORTS IN BLACK NOW IN STOCK",
+    "Next Commerce PREMIER SHORTS IN BLACK NOW IN STOCK",
     "FREE SHIPPING ON ORDERS OVER $150 - SHOP NOW",
     "NEW COLLECTION JUST DROPPED - EXPLORE",
   ]
